@@ -1,0 +1,13 @@
+Q1. Wap to check whether an year is leap or not?
+	(Year%4==0  && year%100!=0)  || year%400==0  leap year
+Q2. Wap to check the experience of an employee, if exp is greater than 20 years then calculate bonus=20% salary, else calculate bonus = 10% of salary.
+Q3. Wap to check if a person is eligible to vote or not.
+Q4. Wap to check whether  a character is in lower case or upper case.
+Q5. Wap to check whether a number is negative or positive or zero.
+Q6. Wap to print pass or fail according to marks.
+Q7. Wap to check whether a character is vowel or not.
+Q8. Wap to check whether a number is even or odd.
+Q9. 1. Check whether the character is alphabet or not
+// 2. If character is alphabet then check if it is in lower case or upper case
+//3. If it is in upper case then convert it into lower case
+//4. Check if it is vowel or not
