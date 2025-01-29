@@ -15,7 +15,7 @@ class EmpExperience
         
          double bonus = (experience > 20) ? salary * 0.20 : salary * 0.10;
 
-         System.out.println("Bonus: " + bonus); //print on the user screen
+         System.out.println("Bonus: " + bonus); //print on the user scr een
          scanner.close();  
 }
 }

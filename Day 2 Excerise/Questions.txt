@@ -1,0 +1,7 @@
+Q1. Write a program to print the area of a rectangle.
+Q2. Print the ASCII value of the character inputted by user
+Q3. Write a program to add 32 to the ASCII value of a character and print the equivalent character.
+Q4. Write a program to add an integer variable having value 5 and a double variable having value 6.2.
+Q5. Write a program to find the square of the double number.
+Q6. Write a program to assign a value of 100.235 to a double variable and then convert it to int.
+Q7. write a program to find the percentage of marks. Input marks and total marks.
