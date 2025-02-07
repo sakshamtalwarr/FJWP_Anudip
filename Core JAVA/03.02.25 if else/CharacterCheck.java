@@ -1,8 +1,3 @@
-//  wap to check whether a character is alphabet, number or a special character.
-
-
-import java.util.Scanner;
-
 public class CharacterCheck {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
