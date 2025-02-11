@@ -22,11 +22,17 @@ This repository contains my assignments, projects, and learning materials.
 
 FJWP_Anudip/ 
 ├── CoreJava/ # Java programs and exercises 
+
 ├── MySQL/ # Database queries and scripts 
+
 ├── WebDevelopment/ # HTML, CSS, and JavaScript projects 
+
 ├── DevOps/ # Git, Jenkins, and automation tools practice 
+
 ├── Assignments/ # Weekly assignments 
+
 ├── Notes/ # My study notes 
+   
 └── README.md
 ---
 
