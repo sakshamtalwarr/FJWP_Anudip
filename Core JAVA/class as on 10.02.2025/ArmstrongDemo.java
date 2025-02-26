@@ -1,6 +1,5 @@
-
 // input a range from user and print all the  armstrong numbers from that range
-public package pack1;
+public  package pack1;
 
 import java.util.Scanner;
 
