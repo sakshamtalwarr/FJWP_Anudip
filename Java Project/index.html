@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Grocery Inventory System</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(-45deg, #47104e, #680c87aa, #160963);
+      background-size: 400% 400%;
+      animation: gradientBG 20s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4f1141;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .login-container {
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 15px;
+      padding: 40px;
+      width: 350px;
+      box-shadow: 0 0 20px rgba(248, 248, 248, 0.3);
+      backdrop-filter: blur(12px);
+      z-index: 1;
+      position: relative;
+    }
+
+    .login-container::before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent 70%);
+      z-index: -1;
+      border-radius: 20px;
+      animation: ambientGlow 3s infinite alternate ease-in-out;
+    }
+
+    @keyframes ambientGlow {
+      0% { box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); }
+      100% { box-shadow: 0 0 35px rgb(255, 255, 255); }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 26px;
+      color: #ffffff;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      outline: none;
+    }
+
+    input::placeholder {
+      color: #eee;
+    }
+
+    .show-password {
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: #ddd;
+    }
+
+    .show-password input {
+      margin-right: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: #608ceb;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e44646;
+    }
+
+    .clock {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #f0f0f0;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px 12px;
+      border-radius: 10px;
+      backdrop-filter: blur(5px);
+    }
+
+    .gif {
+      position: absolute;
+      bottom: 50px;
+      width: 120px;
+      height: auto;
+      background-color: #f0f0f0;
+      border-radius: 10px;
+      color: rgb(234, 15, 15);
+      padding: 10px;
+      box-shadow: 0 0 20px rgba(111, 44, 44, 0.3);
+      animation: ambientGlow 5s infinite alternate ease-in-out;
+    }
+
+    .greeting-alert {
+      position: fixed;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.26);
+      color: #fff;
+      font-weight: bold;
+      text-transform: uppercase;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-size: 16px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      z-index: 9999;
+      animation: slideDownFade 5s forwards;
+      text-align: center;
+    }
+
+    @keyframes slideDownFade {
+      0% { transform: translate(-50%, -100px); opacity: 0; }
+      20% { transform: translate(-50%, 0); opacity: 1; }
+      80% { transform: translate(-50%, 0); opacity: 1; }
+      100% { transform: translate(-50%, 0); opacity: 0; }
+    }
+
+    .bottom-line {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background-color: #fff;
+      background-image: url('https://i.pinimg.com/originals/69/00/ea/6900ea579e3526954c80b70487a78680.gif');
+      background-repeat: repeat-x;
+      background-size: auto 60px;
+      background-position: bottom left;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="greeting-alert" id="greeting">Welcome to the <br> Grocery Inventory Login Page! 👋</div>
+
+  <div class="clock" id="clock"></div>
+
+  <img src="https://undesirable-reindeer.files.svdcdn.com/production/inventory-illustration.gif?dm=1736531575" alt="gif" class="gif" />
+
+  <div class="login-container">
+    <h2>Login to Grocery System</h2>
+    <form action="LoginServlet" method="post">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" placeholder="Enter Username" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter Password" required />
+
+      <div class="show-password">
+        <input type="checkbox" id="togglePassword" onclick="togglePasswordVisibility()">
+        <label for="togglePassword">Show Password</label>
+      </div>
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <div class="bottom-line"></div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      hours = String(hours).padStart(2, '0');
+      const timeString = `${hours}:${minutes}:${seconds} ${ampm}`;
+      const location = Intl.DateTimeFormat().resolvedOptions().timeZone.replace("_", " ");
+      document.getElementById('clock').textContent = `${timeString} (${location})`;
+    }
+
+    function togglePasswordVisibility() {
+      const password = document.getElementById("password");
+      password.type = password.type === "password" ? "text" : "password";
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    setTimeout(() => {
+      const greeting = document.getElementById('greeting');
+      if (greeting) greeting.style.display = 'none';
+    }, 5000);
+  </script>
+</body>
+</html>
