@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Admin Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Kit for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        /* CSS Variables for easy theme management */
+        :root {
+            --topbar-height: 80px; /* Height for topbar */
+            --primary-blue: #007bff;
+            --light-blue: #e0f2ff;
+            --dark-blue: #0056b3;
+            --gradient-start-body: #77b7e8; /* Sky Blue inspired by login page */
+            --gradient-end-body: #498dc5;   /* Blue inspired by login page */
+            --text-light: #ffffff; /* White text for better contrast */
+            --text-dark: #2c3e50;
+            --card-bg-opacity: rgba(0, 0, 0, 0.05); /* Very subtle transparency for containers */
+            --card-bg-hover: rgba(255, 255, 255, 0.1); /* Lighter transparency on hover */
+            --border-color-light: rgba(255, 255, 255, 0.2); /* Light border for contrast */
+            --shadow-white-light: rgba(248, 248, 248, 0.3); /* White glow shadow */
+            --shadow-white-hover: rgba(255, 255, 255, 0.5); /* Stronger white glow on hover */
+            --accent-purple: #a78bfa; /* Keeping a subtle accent color */
+            --accent-purple-dark: #8b5cf6;
+        }
+
+        /* Basic Reset and Font */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Body and Background Gradient Animation (from login page) */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, var(--gradient-start-body), var(--gradient-end-body));
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+            color: var(--text-light); /* Default body text color to white */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Topbar Styling */
+        .topbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: var(--topbar-height);
+            background: rgba(255, 255, 255, 0.08); /* Frosted glass effect for topbar */
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color-light);
+            z-index: 99;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Subtle dark shadow */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            color: var(--text-light);
+            font-weight: 600;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .system-title {
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--text-light); /* White title */
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Main Content Styling */
+        .main {
+            margin: 20px; /* Margin around the main content block */
+            padding: 40px;
+            width: calc(100% - 40px); /* Adjust for margin */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--card-bg-opacity); /* Transparent background for main content */
+            border-radius: 15px;
+            box-shadow: 0 0 20px var(--shadow-white-light); /* White glow */
+            backdrop-filter: blur(12px);
+            position: relative; /* For the ambient glow pseudo-element */
+        }
+
+        /* Ambient Glow for Main Content (mimics login container) */
+        .main::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent 70%); /* Reduced opacity for less intensity */
+            z-index: -1;
+            border-radius: 20px;
+            animation: ambientGlow 3s infinite alternate ease-in-out;
+        }
+
+        @keyframes ambientGlow {
+            0% { box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); } /* Darker starting shadow */
+            100% { box-shadow: 0 0 25px var(--shadow-white-light); } /* Lighter, more prominent glow */
+        }
+
+        .main h2 {
+            color: var(--text-light); /* White text for dashboard title */
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+            flex-grow: 1;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08); /* Slightly transparent white for cards */
+            padding: 30px 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Darker shadow for depth */
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            cursor: pointer;
+            border: 1px solid var(--border-color-light); /* Light border */
+            font-weight: 600;
+            color: var(--text-light); /* White text for card content */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
+            backdrop-filter: blur(8px); /* Frosted glass for cards */
+        }
+
+        .card i {
+            font-size: 36px;
+            margin-bottom: 15px;
+            color: var(--accent-purple); /* Accent color for icons */
+            transition: color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            background: var(--card-bg-hover); /* Lighter transparent on hover */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 0 3px rgba(255, 255, 255, 0.1); /* Darker shadow with subtle white outline */
+            color: var(--text-light);
+        }
+
+        .card:hover i {
+            color: var(--accent-purple-dark); /* Darker accent on hover */
+        }
+
+        /* Logout button style */
+        .logout-button {
+            padding: 8px 15px;
+            background-color: #dc3545; /* Standard red for logout */
+            color: white;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .logout-button:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .topbar {
+                flex-direction: column;
+                height: auto;
+                padding: 15px 20px;
+                align-items: flex-start;
+            }
+
+            .topbar-left, .topbar-right {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+                gap: 10px;
+            }
+
+            .main {
+                padding: 20px;
+                margin: 15px; /* Smaller margin for mobile */
+                width: calc(100% - 30px); /* Adjust for new margin */
+            }
+
+            .card-grid {
+                gap: 20px;
+            }
+        }
+
+        /* Modal specific styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Darker overlay */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .modal-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: rgba(255, 255, 255, 0.1); /* Frosted glass for modal */
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 30px var(--shadow-white-hover); /* Stronger white glow for modal */
+            z-index: 1001;
+            width: 90%;
+            max-width: 600px;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            border: 1px solid var(--border-color-light); /* Light border */
+        }
+
+        .modal-container.active {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
+        }
+
+        .modal-header h3 {
+            color: var(--text-light); /* White title */
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .modal-close-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .modal-close-button:hover {
+            color: #dc3545; /* Red on hover */
+        }
+
+        .modal-body {
+            color: var(--text-light); /* White text for body */
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Topbar -->
+    <div class="topbar" id="topbar">
+        <div class="topbar-left">
+            <span class="system-title">Grocery System</span>
+        </div>
+        <div class="topbar-right">
+            <div id="welcome-message">
+                Welcome, Admin
+            </div>
+            <a href="index.html" class="logout-button">Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main" id="main">
+        <h2 id="dashboard-title">Admin Dashboard</h2>
+        <!-- Admin Portal Dashboard Cards -->
+        <div id="admin-dashboard-cards" class="card-grid">
+            <div class="card" onclick="openModal('addEmployee')"><i class="fas fa-user-plus"></i>Add New Employee</div>
+            <div class="card" onclick="openModal('updateEmployee')"><i class="fas fa-user-edit"></i>Update Employee Record</div>
+            <div class="card" onclick="openModal('deleteEmployee')"><i class="fas fa-user-minus"></i>Delete Employee Record</div>
+            <div class="card" onclick="openModal('viewAllEmployees')"><i class="fas fa-users"></i>View All Employees</div>
+            <div class="card" onclick="openModal('viewEmployee')"><i class="fas fa-id-card"></i>View Employee Record</div>
+            <div class="card" onclick="openModal('manageAllProductsAdmin')"><i class="fas fa-tasks"></i>Manage All Products</div>
+            <div class="card" onclick="openModal('generateSalesReports')"><i class="fas fa-chart-line"></i>Generate Sales Reports</div>
+            <div class="card" onclick="openModal('manageCategories')"><i class="fas fa-tags"></i>Manage Categories</div>
+            <div class="card" onclick="openModal('manageBrands')"><i class="fas fa-certificate"></i>Manage Brands</div>
+            <div class="card" onclick="openModal('totalPaidOrders')"><i class="fas fa-money-bill-wave"></i>Total Paid Orders</div>
+        </div>
+    </div>
+
+    <!-- The Modal Structure -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+    <div class="modal-container" id="modalContainer">
+        <div class="modal-header">
+            <h3 id="modalTitle"></h3>
+            <button class="modal-close-button" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="modalBody">
+            <!-- Content will be loaded here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        function openModal(cardType) {
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalContainer = document.getElementById('modalContainer');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+
+            let title = '';
+            let content = '';
+
+            switch (cardType) {
+                case 'addEmployee':
+                    title = 'Add New Employee';
+                    content = `
+                        <p>This section will allow you to add new employee records.</p>
+                        <p>A form with fields for employee details (name, contact, role, etc.) will be available.</p>
+                    `;
+                    break;
+                case 'updateEmployee':
+                    title = 'Update Employee Record';
+                    content = `
+                        <p>Here you can update an existing employee's details.</p>
+                        <p>You'll need to search for the employee first, then edit their information.</p>
+                    `;
+                    break;
+                case 'deleteEmployee':
+                    title = 'Delete Employee Record';
+                    content = `
+                        <p>This functionality allows you to remove an employee record from the system.</p>
+                        <p>Please exercise caution as this action is usually irreversible.</p>
+                    `;
+                    break;
+                case 'viewAllEmployees':
+                    title = 'View All Employees';
+                    content = `
+                        <p>A comprehensive list of all employees will be displayed here.</p>
+                        <p>This will typically be a table with sorting and filtering options.</p>
+                    `;
+                    break;
+                case 'viewEmployee':
+                    title = 'View Employee Record';
+                    content = `
+                        <p>View the full details of a specific employee.</p>
+                        <p>You can search by employee ID or name to access their complete record.</p>
+                    `;
+                    break;
+                case 'manageAllProductsAdmin':
+                    title = 'Manage All Products (Admin)';
+                    content = `
+                        <p>This section provides administrative control over all products.</p>
+                        <p>You can add, edit, delete, and view all product information from here.</p>
+                    `;
+                    break;
+                case 'generateSalesReports':
+                    title = 'Generate Sales Reports';
+                    content = `
+                        <p>Create various sales reports to analyze performance.</p>
+                        <p>Options for date ranges, product categories, and employee sales might be available.</p>
+                    `;
+                    break;
+                case 'manageCategories':
+                    title = 'Manage Categories';
+                    content = `
+                        <p>Add, edit, or delete product categories.</p>
+                        <p>Ensures products are organized logically within the inventory system.</p>
+                    `;
+                    break;
+                case 'manageBrands':
+                    title = 'Manage Brands';
+                    content = `
+                        <p>Manage product brands within the system.</p>
+                        <p>Allows adding new brands, updating existing ones, or removing them.</p>
+                    `;
+                    break;
+                case 'totalPaidOrders':
+                    title = 'Total Paid Orders';
+                    content = `
+                        <p>View a summary or detailed list of all paid orders.</p>
+                        <p>This will help track revenue and completed transactions.</p>
+                    `;
+                    break;
+                default:
+                    title = 'Information';
+                    content = '<p>No specific content for this card type yet.</p>';
+            }
+
+            modalTitle.textContent = title;
+            modalBody.innerHTML = content;
+
+            modalOverlay.classList.add('active');
+            modalContainer.classList.add('active');
+        }
+
+        function closeModal() {
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalContainer = document.getElementById('modalContainer');
+
+            modalOverlay.classList.remove('active');
+            modalContainer.classList.remove('active');
+        }
+    </script>
+
+</body>
+</html>
